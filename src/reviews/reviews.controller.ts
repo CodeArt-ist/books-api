@@ -38,7 +38,7 @@ export class ReviewsController {
     }
   }
 
-  // @ts-ignore
+
   @Post('/')
   @UsePipes(ValidationPipe)
   createReview(
