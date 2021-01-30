@@ -4,10 +4,12 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   CreateDateColumn,
+  OneToMany,
 } from 'typeorm';
 
 import * as bcrypt from 'bcrypt';
 import has = Reflect.has;
+import { Reviews } from '../../reviews/entities/reviews.entity';
 
 @Entity()
 export class User {
@@ -40,6 +42,13 @@ export class User {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @OneToMany(
+    type => Reviews,
+    review => review.user,
+    { eager: true },
+  )
+  reviews: Reviews[];
 
   @Column()
   salt: string;

@@ -3,8 +3,9 @@ import {
     Column,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
-    CreateDateColumn, DeleteDateColumn,
+    CreateDateColumn, DeleteDateColumn, ManyToOne,
 } from 'typeorm';
+import {User} from "../../auth/entities/user.entity";
 
 @Entity()
 export class Reviews {
@@ -28,4 +29,7 @@ export class Reviews {
 
     @UpdateDateColumn()
     updated_at: Date;
+
+    @ManyToOne(type => User, user=>user.reviews, {eager: false})
+    user: User
 }
