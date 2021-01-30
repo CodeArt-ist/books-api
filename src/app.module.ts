@@ -4,14 +4,15 @@ import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './auth/entities/user.entity';
 import { Reviews } from './reviews/entities/reviews.entity';
+import { BookModule } from './book/book.module';
 import * as config from 'config';
 
 const dbConfig = config.get('db');
 
 @Module({
   imports: [
-    ReviewsModule,
     AuthModule,
+    ReviewsModule,
     TypeOrmModule.forRoot({
       type: dbConfig.type,
       host: dbConfig.host,
@@ -22,6 +23,7 @@ const dbConfig = config.get('db');
       entities: [User, Reviews],
       synchronize: true,
     }),
+    BookModule,
   ],
 })
 export class AppModule {}
