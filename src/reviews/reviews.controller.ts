@@ -31,7 +31,7 @@ export class ReviewsController {
     }
   }
 
-  @Post('/create')
+  @Post('/')
   @UsePipes(ValidationPipe)
   createReview(@Body() createReviewDto: CreateReviewDto): Reviews {
     return this.reviewsService.createReview(createReviewDto);
