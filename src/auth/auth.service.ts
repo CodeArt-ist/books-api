@@ -12,7 +12,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import { JwtService } from '@nestjs/jwt';
 import { UserInterface } from './interface/user.interface';
-import {JwtPayloadInterface} from "./interface/jwt-payload.interface";
+import { JwtPayloadInterface } from './interface/jwt-payload.interface';
 
 @Injectable()
 export class AuthService {
@@ -30,17 +30,16 @@ export class AuthService {
     await this.usersRepository.delete(id);
   }
 
-  async login(authCredentialsDto: AuthCredentialsDto):Promise<{}> {
+  async login(authCredentialsDto: AuthCredentialsDto): Promise<{}> {
     const user = await this.validateUserPassword(authCredentialsDto);
     if (!user) {
       throw new UnauthorizedException();
     }
 
-    const payload:UserInterface = { ...user };
+    const payload: UserInterface = { ...user };
     const accessToken = await this.jwtService.sign(payload);
 
     return { accessToken: accessToken };
-
   }
 
   async register(
@@ -101,7 +100,7 @@ export class AuthService {
         id: user.id,
         firstname: user.firstname,
         surname: user.surname,
-        isActive: user.isActive
+        isActive: user.isActive,
       };
 
       return userInterface;

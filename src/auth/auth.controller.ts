@@ -1,11 +1,17 @@
-import {BadRequestException, Body, Controller, Get, Param, Post, Req, UseGuards, ValidationPipe} from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  ValidationPipe,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { User } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
-import {AuthCredentialsDto} from "./dto/auth-credentials.dto";
-import {UserInterface} from "./interface/user.interface";
-import {AuthGuard} from "@nestjs/passport";
-import {GetUser} from "./decorator/get-user.decorator";
+import { AuthCredentialsDto } from './dto/auth-credentials.dto';
+import { UserInterface } from './interface/user.interface';
 
 @Controller('auth')
 export class AuthController {
@@ -26,7 +32,7 @@ export class AuthController {
   @Post('/login')
   async login(
     @Body(ValidationPipe) authCredentialsDto: AuthCredentialsDto,
-  ): Promise<{ }> {
+  ): Promise<{}> {
     return this.authService.login(authCredentialsDto);
   }
 }
