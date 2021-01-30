@@ -5,7 +5,7 @@ import {ParseIntPipe} from "@nestjs/common";
 export class CreateReviewDto {
   @ApiProperty()
   @IsNotEmpty({message:"Hangi kitap hakkında inceleme yapacağınızı belirtmelisiniz"})
-  read_book_id: bigint;
+  read_book_id: number;
 
   @ApiProperty()
   @IsNotEmpty({message: 'description:Açıklama alanı boş olamaz'})
@@ -15,5 +15,5 @@ export class CreateReviewDto {
   @Min(1)
   @Max(5)
   @IsNotEmpty({message:"Bir değer belirtmelisiniz"})
-  rate: bigint;
+  rate: number;
 }

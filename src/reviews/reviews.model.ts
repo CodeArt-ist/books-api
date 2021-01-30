@@ -1,7 +1,9 @@
 export interface Reviews {
-  id: string;
-  read_book_id: bigint;
+  id: number;
+  read_book_id: number;
   description: string;
-  rate: bigint;
-  created_at: Date
+  rate: number;
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date;
 }

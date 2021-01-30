@@ -1,56 +1,55 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Reviews } from './reviews.model';
 import { CreateReviewDto } from './dto/create-review.dto';
-import { v4 as uuidv4 } from 'uuid';
 import { GetReviewFilterDto } from './dto/get-review-filter.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Reviews } from './entities/reviews.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class ReviewsService {
-  private reviews: Reviews[] = [];
+  constructor(
+    @InjectRepository(Reviews)
+    private reviewRepository: Repository<Reviews>,
+  ) {}
 
-  getAllReviews(): Reviews[] {
-    return this.reviews;
+  getAllReviews(): Promise<Reviews[]> {
+    return this.reviewRepository.find();
   }
 
-  createReview(createReviewDto: CreateReviewDto): Reviews {
-    const review: Reviews = {
-      id: uuidv4(),
-      ...createReviewDto,
-      created_at: new Date(),
-    };
-
-    this.reviews.push(review);
+  async createReview(createReviewDto: CreateReviewDto): Promise<Reviews> {
+    const review = this.reviewRepository.create(createReviewDto);
+    await this.reviewRepository.save(review);
 
     return review;
   }
 
-  getReviewById(id: string): Reviews {
-    let found = this.reviews.find(e => {
-      return e.id === id;
-    });
+  getReviewById(id: number): Promise<Reviews> {
+    let found = this.reviewRepository.findOne(id);
 
     if (!found) {
       throw new NotFoundException();
     }
-
     return found;
   }
 
-  deleteReview(id: string): void {
+  async deleteReview(id: number): Promise<void> {
     const found = this.getReviewById(id);
-    this.reviews = this.reviews.filter(review => review.id !== id);
+    await this.reviewRepository.softDelete(id);
   }
 
-  updateDescription(id: string, description: string): Reviews {
-    let review = this.getReviewById(id);
+ async updateDescription(id: number, description: string): Promise<Reviews> {
+    let review = await this.getReviewById(id);
+
     review.description = description;
+    await this.reviewRepository.save(review);
+
     return review;
   }
 
-  filterReviewsByRate(filterReviewDto: GetReviewFilterDto): Reviews[] {
+  async filterReviewsByRate(filterReviewDto: GetReviewFilterDto): Promise<Reviews[]> {
     const { rate, description } = filterReviewDto;
 
-    let reviews = this.getAllReviews();
+    let reviews = await this.getAllReviews();
 
     if (rate) {
       reviews = reviews.filter(review => review.rate === rate);

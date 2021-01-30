@@ -4,7 +4,7 @@ import { IsOptional } from 'class-validator';
 export class GetReviewFilterDto {
   @ApiProperty()
   @IsOptional()
-  rate: bigint;
+  rate: number;
 
   @ApiProperty()
   @IsOptional()
