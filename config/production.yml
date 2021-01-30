@@ -12,3 +12,6 @@ db:
 jwt:
   secret: ''
   expiresIn: 3600
+
+google:
+  url: 'https://books.googleapis.com/books/v1/volumes'

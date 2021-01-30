@@ -6,6 +6,7 @@ import { User } from './auth/entities/user.entity';
 import { Reviews } from './reviews/entities/reviews.entity';
 import { BookModule } from './book/book.module';
 import * as config from 'config';
+import { Book } from './book/entities/book.entity';
 
 const dbConfig = config.get('db');
 
@@ -20,7 +21,7 @@ const dbConfig = config.get('db');
       username: dbConfig.username,
       password: dbConfig.password,
       database: dbConfig.database,
-      entities: [User, Reviews],
+      entities: [__dirname + '/**/*.entity.{js,ts}'],
       synchronize: true,
     }),
     BookModule,
