@@ -2,9 +2,14 @@ import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import * as config from 'config'
+import {logger} from "./logger.middleware";
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule,{
+    bodyParser: true
+  });
+
+  await app.use(logger)
 
   const swaggerConfig = new DocumentBuilder()
       .setTitle('Books Api')
