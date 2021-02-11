@@ -31,8 +31,7 @@ export class BookService {
   }
 
   googleSearch(query: string): Observable<AxiosResponse<any>> {
-    const searchUrl =
-      `${config.get("google.url")}?q=${query}$&langRestrict=tr`;
-    return this.httpService.get(searchUrl).pipe(map(response => response.data));
+    const searchUrl = `${config.get("google.url")}?q=${query}$&langRestrict=tr`;
+    return this.httpService.get(searchUrl).pipe(map(response => response.data.items));
   }
 }
