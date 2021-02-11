@@ -4,7 +4,7 @@ import { Book } from './entities/book.entity';
 import { Repository } from 'typeorm';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import * as config from 'config'
+import * as config from 'config';
 
 class AxiosResponse<T> {}
 
@@ -30,8 +30,14 @@ export class BookService {
     return db;
   }
 
-  googleSearch(query: string): Observable<AxiosResponse<any>> {
-    const searchUrl = `${config.get("google.url")}?q=${query}$&langRestrict=tr`;
-    return this.httpService.get(searchUrl).pipe(map(response => response.data.items));
+  googleSearch(query: string): Observable<any> {
+    const searchUrl = `${config.get('google.url')}?q=${query}$&langRestrict=tr`;
+    return this.httpService.get(searchUrl).pipe(
+      map(response =>
+        response.data.items.map(item => {
+          return item.volumeInfo.title;
+        }),
+      ),
+    );
   }
 }
