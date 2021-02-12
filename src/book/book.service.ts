@@ -35,7 +35,10 @@ export class BookService {
     return this.httpService.get(searchUrl).pipe(
       map(response =>
         response.data.items.map(item => {
-          return item.volumeInfo.title;
+          return {
+            title: item.volumeInfo.title,
+            selfLink: item.selfLink
+          };
         }),
       ),
     );
