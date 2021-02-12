@@ -7,7 +7,7 @@ import { AuthGuard } from '@nestjs/passport';
 export class BookController {
   constructor(private bookService: BookService) {}
 
-  @Get('/:query')
+  @Get('/search/:query')
   async getBook(@Param('query') query: string): Promise<any> {
     return await this.bookService.getBook(query);
   }
