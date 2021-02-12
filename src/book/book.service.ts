@@ -30,6 +30,11 @@ export class BookService {
     return db;
   }
 
+  async selfLink(url: string): Promise<any> {
+    const response = await this.googleSelfLink(url);
+    return response;
+  }
+
   googleSearch(query: string): Observable<any> {
     const searchUrl = `${config.get('google.url')}?q=${query}$&langRestrict=tr`;
     return this.httpService.get(searchUrl).pipe(
@@ -37,10 +42,18 @@ export class BookService {
         response.data.items.map(item => {
           return {
             title: item.volumeInfo.title,
-            selfLink: item.selfLink
+            selfLink: item.selfLink,
           };
         }),
       ),
+    );
+  }
+
+  googleSelfLink(url: string): Observable<any> {
+    return this.httpService.get(url).pipe(
+      map(response => {
+        return response.data;
+      }),
     );
   }
 }
