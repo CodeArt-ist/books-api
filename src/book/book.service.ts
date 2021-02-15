@@ -6,8 +6,6 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as config from 'config';
 
-class AxiosResponse<T> {}
-
 @Injectable()
 export class BookService {
   constructor(
