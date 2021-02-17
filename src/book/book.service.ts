@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as config from 'config';
+import {Reviews} from "../reviews/entities/reviews.entity";
 
 @Injectable()
 export class BookService {
@@ -12,6 +13,8 @@ export class BookService {
     @InjectRepository(Book)
     private bookRepository: Repository<Book>,
     private httpService: HttpService,
+    @InjectRepository(Reviews)
+    private reviewRepository: Repository<Reviews>
   ) {}
 
   async getBook(query: string): Promise<any> {
